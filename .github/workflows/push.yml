@@ -3,23 +3,28 @@ on:
   workflow_dispatch:
     inputs:
       model_name:
-        description: 'Enter the model name, like "alice/bunny-detector"'
+        description: 'Enter the model name, like "your-username/your-model-name"'
         required: true
 jobs:
   push_to_replicate:
     name: Push to Replicate
     runs-on: ubuntu-latest
     steps:
-      - name: Free disk pace
-        uses: jlumbroso/free-disk-space@v1.3.1
-        with:
-          tool-cache: false
-          docker-images: false
       - name: Checkout
         uses: actions/checkout@v4
+
+      # --- THIS NEW STEP CLEARS THE CACHE ---
+      - name: Set up cache for Cog
+        uses: actions/cache@v3
+        with:
+          path: ~/.cog/cache
+          key: ${{ runner.os }}-cog-${{ hashFiles('**/cog.yaml') }}
+      # ------------------------------------
+
       - name: Setup Cog
         uses: replicate/setup-cog@v2
         with:
           token: ${{ secrets.REPLICATE_CLI_AUTH_TOKEN }}
+
       - name: Push to Replicate
         run: cog push r8.im/${{ inputs.model_name }}
