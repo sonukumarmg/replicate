@@ -8,5 +8,8 @@ build:
     - "timm"
     - "einops"
     - "Pillow"
-    - "replicate"
+    - "cog"       # <-- Added cog here
+    # If you still need replicate for something else, you can keep it
+    # - "replicate"
 predict: "predict.py:Predictor"
+
