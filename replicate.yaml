@@ -1,0 +1,20 @@
+# replicate.yaml
+build:
+  # We are deploying to a CPU environment
+  gpu: false
+  
+  # Specify the Python version
+  python_version: "3.10"
+  
+  # List all the Python libraries your model needs to run
+  python_packages:
+    - "torch==2.1.2"
+    - "torchvision==0.16.2"
+    - "numpy==1.26.4"
+    - "timm"
+    - "einops"
+    - "Pillow"
+
+# Tell Replicate where your prediction code is.
+# Format: "filename:ClassName"
+predict: "predict.py:Predictor"
